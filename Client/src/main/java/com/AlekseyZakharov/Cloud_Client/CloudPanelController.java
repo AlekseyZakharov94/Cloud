@@ -5,18 +5,23 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class PanelsController implements Initializable {
+public class CloudPanelController implements Initializable {
 
     public TableView<FileInfo> filesTable;
     public ComboBox<Path> disksBox;
+    public TextField pathField;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -58,17 +63,14 @@ public class PanelsController implements Initializable {
 
         filesTable.getColumns().addAll(fileTypeColumn, fileNameColumn, fileSizeColumn, fileLastModifiedColumn);
 
-        updateFilesTable(Paths.get("C:"));
+        updateFilesTable(Paths.get("."));
         filesTable.getSortOrder().add(fileTypeColumn);
 
-        disksBox.getItems().clear();
-        for (Path p : FileSystems.getDefault().getRootDirectories()) {
-            disksBox.getItems().add(p);
-        }
-        disksBox.getSelectionModel().selectFirst();
+
     }
 
     public void updateFilesTable(Path path) {
+        pathField.setText(path.normalize().toAbsolutePath().toString());
         filesTable.getItems().clear();
         try {
             filesTable.getItems().addAll(Files.list(path).map(FileInfo::new).collect(Collectors.toList()));
@@ -79,8 +81,30 @@ public class PanelsController implements Initializable {
         filesTable.sort();
     }
 
-    public void selectDiskAction(ActionEvent actionEvent) {
-        ComboBox<String> element = (ComboBox<String>) actionEvent.getSource();
-        updateFilesTable(Paths.get(element.getValue()));
+    public void btnPathUpAction(ActionEvent actionEvent) {
+        Path upperPath = Paths.get(pathField.getText()).getParent();
+        if (upperPath != null) {
+            updateFilesTable(upperPath);
+        }
+    }
+
+    public void surfDirectories(MouseEvent mouseEvent) {
+        Path path = Paths.get(pathField.getText()).resolve(filesTable.getSelectionModel().getSelectedItem().getFileName());
+        if ((mouseEvent.getClickCount() == 2) && (Files.isDirectory(path))) {
+            updateFilesTable(path);
+        }
+    }
+
+    public String getSelectedFileName() {
+        if (!filesTable.isFocused()) {
+            return null;
+        } else {
+            return filesTable.getSelectionModel().getSelectedItem().getFileName();
+        }
+    }
+
+    public String getCurrentPath() {
+        return pathField.getText();
     }
 }
+

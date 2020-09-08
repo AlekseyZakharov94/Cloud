@@ -10,9 +10,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/main.fxml"));
-        primaryStage.setTitle("Cloud");
-        primaryStage.setScene(new Scene(root, 800, 600));
+        Parent root = FXMLLoader.load(getClass().getResource("/signInWindow.fxml"));
+        primaryStage.setTitle("Cloud SignIn");
+        primaryStage.setScene(new Scene(root, 380, 110));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
