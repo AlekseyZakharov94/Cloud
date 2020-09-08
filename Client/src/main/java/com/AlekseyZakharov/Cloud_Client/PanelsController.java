@@ -65,7 +65,7 @@ public class PanelsController implements Initializable {
         for (Path p : FileSystems.getDefault().getRootDirectories()) {
             disksBox.getItems().add(p);
         }
-        disksBox.getSelectionModel().selectFirst();
+//        disksBox.getSelectionModel().selectFirst();
     }
 
     public void updateFilesTable(Path path) {
@@ -81,6 +81,8 @@ public class PanelsController implements Initializable {
 
     public void selectDiskAction(ActionEvent actionEvent) {
         ComboBox<String> element = (ComboBox<String>) actionEvent.getSource();
-        updateFilesTable(Paths.get(element.getValue()));
+//        System.out.println((element.getItems().get(1)));
+        updateFilesTable(Paths.get(element.getSelectionModel().getSelectedItem()));
+        //не работает..... sun.nio.fs.WindowsPath cannot be cast to java.lang.String
     }
 }
