@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0"
+      prefWidth="520.0" spacing="5.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.AlekseyZakharov.Cloud_Client.SignUpWindowController">
+    <padding>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+    </padding>
+    <HBox prefHeight="100.0" prefWidth="200.0">
+        <Label prefHeight="104.0" prefWidth="170.0" text="First name" textAlignment="CENTER" HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="fistNameField" prefHeight="159.0" prefWidth="415.0" promptText="Enter name"
+                   HBox.hgrow="ALWAYS"/>
+    </HBox>
+    <HBox prefHeight="100.0" prefWidth="200.0">
+        <Label prefHeight="71.0" prefWidth="138.0" text="Last name" HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="lastNameField" prefHeight="55.0" prefWidth="383.0" promptText="Enter last name"
+                   HBox.hgrow="ALWAYS"/>
+    </HBox>
+    <HBox prefHeight="100.0" prefWidth="200.0">
+        <Label prefHeight="77.0" prefWidth="137.0" text="E-mail" HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="emailField" prefHeight="55.0" prefWidth="382.0" promptText="Enter e-mail"
+                   HBox.hgrow="ALWAYS"/>
+    </HBox>
+    <HBox prefHeight="100.0" prefWidth="200.0">
+        <Label prefHeight="31.0" prefWidth="150.0" text="Country" HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="countryField" prefHeight="31.0" prefWidth="395.0" promptText="Enter country"
+                   HBox.hgrow="ALWAYS"/>
+    </HBox>
+    <HBox prefHeight="100.0" prefWidth="200.0">
+        <Label prefHeight="31.0" prefWidth="140.0" text="City" HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="cityField" prefHeight="31.0" prefWidth="385.0" promptText="Enter city"
+                   HBox.hgrow="ALWAYS"/>
+    </HBox>
+    <HBox prefHeight="100.0" prefWidth="200.0">
+        <Label prefHeight="44.0" prefWidth="136.0" text="Login" HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="loginField" prefHeight="53.0" prefWidth="382.0" promptText="Enter login"
+                   HBox.hgrow="ALWAYS"/>
+    </HBox>
+    <HBox prefHeight="100.0" prefWidth="200.0">
+        <Label prefHeight="32.0" prefWidth="141.0" text="Password" HBox.hgrow="ALWAYS"/>
+        <PasswordField fx:id="passwordField" prefHeight="32.0" prefWidth="385.0" promptText="Enter password"
+                       HBox.hgrow="ALWAYS"/>
+    </HBox>
+    <Button fx:id="signUpBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="554.0" text="Sign Up"
+            VBox.vgrow="ALWAYS" onAction="#signUp"/>
+</VBox>
