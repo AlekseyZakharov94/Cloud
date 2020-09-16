@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-public class Controller {
+public class MainController {
 
     public void btnExitAction(ActionEvent actionEvent) {
         Platform.exit();

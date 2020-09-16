@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="center" prefHeight="105.0" prefWidth="379.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.AlekseyZakharov.Cloud_Client.SignInWindowController">
+   <HBox alignment="CENTER" prefHeight="35.0" prefWidth="315.0" spacing="5.0">
+       <Label prefHeight="17.0" prefWidth="53.0" text="Login " />
+       <TextField fx:id="loginField" maxWidth="Infinity" prefHeight="25.0" prefWidth="286.0" promptText="Enter login" HBox.hgrow="ALWAYS" />
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      </padding>
+   </HBox>
+    <HBox alignment="CENTER" fillHeight="false" spacing="5.0">
+        <Label prefHeight="17.0" prefWidth="53.0" text="Password" />
+        <PasswordField fx:id="passwordField" maxWidth="Infinity" prefHeight="25.0" prefWidth="307.0" promptText="Enter password" HBox.hgrow="ALWAYS" />
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      </padding>
+    </HBox>
+    <HBox alignment="CENTER" spacing="5.0">
+        <Button maxWidth="Infinity" text="Sign In" HBox.hgrow="ALWAYS" onAction="#signIn" />
+        <Button fx:id="signUpButton" maxWidth="Infinity" onAction="#openSignUpWindow" text="Sign Up" HBox.hgrow="ALWAYS" />
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      </padding>
+    </HBox>
+  </VBox>

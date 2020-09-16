@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class PanelsController implements Initializable {
+public class ClientPanelController implements Initializable {
 
     public TableView<FileInfo> filesTable;
     public ComboBox<Path> disksBox;
