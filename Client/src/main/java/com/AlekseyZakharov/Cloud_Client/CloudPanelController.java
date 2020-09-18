@@ -20,8 +20,7 @@ import java.util.stream.Collectors;
 public class CloudPanelController implements Initializable {
 
     public TableView<FileInfo> filesTable;
-    public ComboBox<Path> disksBox;
-    public TextField pathField;
+        public TextField pathField;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -63,7 +62,7 @@ public class CloudPanelController implements Initializable {
 
         filesTable.getColumns().addAll(fileTypeColumn, fileNameColumn, fileSizeColumn, fileLastModifiedColumn);
 
-        updateFilesTable(Paths.get("."));
+        updateFilesTable(Paths.get("D:/"));
         filesTable.getSortOrder().add(fileTypeColumn);
 
 

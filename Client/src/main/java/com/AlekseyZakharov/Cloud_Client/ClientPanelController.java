@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,6 +18,7 @@ public class ClientPanelController implements Initializable {
 
     public TableView<FileInfo> filesTable;
     public ComboBox<Path> disksBox;
+    public TextField pathField;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -69,6 +71,7 @@ public class ClientPanelController implements Initializable {
     }
 
     public void updateFilesTable(Path path) {
+        pathField.setText(path.normalize().toAbsolutePath().toString());
         filesTable.getItems().clear();
         try {
             filesTable.getItems().addAll(Files.list(path).map(FileInfo::new).collect(Collectors.toList()));
@@ -80,7 +83,21 @@ public class ClientPanelController implements Initializable {
     }
 
     public void selectDiskAction(ActionEvent actionEvent) {
-        ComboBox<String> element = (ComboBox<String>) actionEvent.getSource();
-        updateFilesTable(Paths.get(element.getValue()));
+        ComboBox<Path> element = (ComboBox<Path>) actionEvent.getSource();
+        updateFilesTable(element.getSelectionModel().getSelectedItem());
+    }
+
+    public void btnPathUpAction(ActionEvent actionEvent) {
+        Path upperPath = Paths.get(pathField.getText()).getParent();
+        if (upperPath != null) {
+            updateFilesTable(upperPath);
+        }
+    }
+
+    public void surfDirectories(MouseEvent mouseEvent) {
+        Path path = Paths.get(pathField.getText()).resolve(filesTable.getSelectionModel().getSelectedItem().getFileName());
+        if ((mouseEvent.getClickCount() == 2) && (Files.isDirectory(path))) {
+            updateFilesTable(path);
+        }
     }
 }

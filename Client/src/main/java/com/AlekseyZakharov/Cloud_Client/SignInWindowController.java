@@ -8,28 +8,18 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class SignInWindowController {
 
     public Button signUpButton;
     public PasswordField passwordField;
     public TextField loginField;
+    public Button signInButton;
 
     public void openSignUpWindow(ActionEvent actionEvent) {
-        signUpButton.getScene().getWindow().hide();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/signUpWindow.fxml"));
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Parent root = loader.getRoot();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Cloud SignUp");
-        stage.setResizable(false);
-        stage.showAndWait();
+        startNewScene(signUpButton, "/signUpWindow.fxml", "Cloud SignUp");
     }
 
     public void signIn(ActionEvent actionEvent) {
@@ -45,6 +35,44 @@ public class SignInWindowController {
     }
 
     private void signInUser(String loginText, String passwordText) {
+        DataBaseHandler dataBaseHandler = new DataBaseHandler();
+        User user = new User();
+        user.setLogin(loginText);
+        user.setPassword(passwordText);
+        ResultSet resultSet = dataBaseHandler.findUser(user);
+        int counter = 0;
+       try {
+           while (resultSet.next()){
+               counter++;
+           }
+       }catch (SQLException e){
+           e.printStackTrace();
+       }
+        if (counter > 0){
+            startNewScene(signInButton, "/main.fxml", "Cloud user " + user.getLogin());
+        }else {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "There is no users with this login and password." +
+                    "Please, enter the correct data or sign up",
+                    ButtonType.APPLY);
+            alert.showAndWait();
+        }
+
+    }
+
+    public void startNewScene(Control control, String name, String title) {
+        control.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(name));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle(title);
+        stage.show();
     }
 }
 

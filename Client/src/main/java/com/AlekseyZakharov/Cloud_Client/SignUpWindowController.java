@@ -8,7 +8,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.SQLIntegrityConstraintViolationException;
+
 
 public class SignUpWindowController {
     public TextField fistNameField;
@@ -19,34 +19,31 @@ public class SignUpWindowController {
     public TextField loginField;
     public PasswordField passwordField;
     public Button signUpBtn;
-    DataBaseHandler dataBaseHandler = new DataBaseHandler();
 
     public void signUp(ActionEvent actionEvent) {
         if (!fistNameField.getText().equals("") && !lastNameField.getText().equals("") && !emailField.getText().equals("") &&
                 !countryField.getText().equals("") && !cityField.getText().equals("") && !loginField.getText().equals("") &&
-                !passwordField.getText().equals("")){
-            dataBaseHandler.signUpUser(fistNameField.getText(), lastNameField.getText(), emailField.getText(),
-                    countryField.getText(), cityField.getText(), loginField.getText(), passwordField.getText());
-
-            signUpBtn.getScene().getWindow().hide();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/signInWindow.fxml"));
-            try {
-                loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Parent root = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Cloud SignIn");
-            stage.setResizable(false);
-            stage.showAndWait();
-        }else {
+                !passwordField.getText().equals("")) {
+            signUpNewUser();//
+        } else {
             Alert alert = new Alert(Alert.AlertType.WARNING, "All fields must be filled in",
                     ButtonType.APPLY);
             alert.showAndWait();
         }
+    }
+
+    private void signUpNewUser() {
+        DataBaseHandler dataBaseHandler = new DataBaseHandler();
+        String first_name = fistNameField.getText();
+        String last_name = lastNameField.getText();
+        String email = emailField.getText();
+        String country = countryField.getText();
+        String city = cityField.getText();
+        String login = loginField.getText();
+        String password = passwordField.getText();
+        User user = new User(first_name, last_name, email, country, city, login, password);
+        dataBaseHandler.signUpUser(user);
+        new SignInWindowController().startNewScene(signUpBtn, "/signInWindow.fxml", "Cloud SignIn");
     }
 }
 
