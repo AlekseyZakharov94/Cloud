@@ -1,4 +1,4 @@
-package com.AlekseyZakharov.Cloud_Client;
+package com.AlekseyZakharov.Cloud_Common;
 
 public class User {
     private String first_name;
