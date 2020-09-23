@@ -1,5 +1,8 @@
-package com.AlekseyZakharov.Cloud_Client;
+package com.AlekseyZakharov.Cloud_Common;
 
+import com.AlekseyZakharov.Cloud_Common.DBConfigs;
+import com.AlekseyZakharov.Cloud_Common.DBConst;
+import com.AlekseyZakharov.Cloud_Common.User;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
@@ -9,13 +12,14 @@ public class DataBaseHandler extends DBConfigs {
     Connection dbConnection;
 
     public Connection getDbConnection() throws ClassNotFoundException, SQLException {
-        String connectionString = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName; //jdbc:mysql://localhost:3306/mysql
+        String connectionString = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName;
         Class.forName("com.mysql.cj.jdbc.Driver");
         dbConnection = DriverManager.getConnection(connectionString, dbUser, dbPassword);
         return dbConnection;
     }
 
-    public void signUpUser(User user) {
+    public void
+    signUpUser(User user) {
         String insert = "INSERT INTO " + DBConst.USERS_TABLE + " (" + DBConst.USERS_FIRST_NAME + ", " + DBConst.USERS_LAST_NAME +
                 " ," + DBConst.USERS_EMAIL + ", " + DBConst.USERS_COUNTRY + ", " + DBConst.USERS_CITY + ", " +
                 DBConst.USERS_LOGIN + ", " + DBConst.USERS_PASSWORD + ")" + "VALUES (?, ?, ?, ?, ?, ?, ?)";

@@ -18,10 +18,11 @@
     </HBox>
 
     <HBox>
-        <Button text="Отправить" HBox.hgrow="ALWAYS" maxWidth="Infinity" focusTraversable="false"/>
-        <Button text="Загрузить" HBox.hgrow="ALWAYS" maxWidth="Infinity" focusTraversable="false"/>
-        <Button text="Удалить" HBox.hgrow="ALWAYS" maxWidth="Infinity" focusTraversable="false"/>
-        <Button text="Выход из программы" HBox.hgrow="ALWAYS" maxWidth="Infinity" focusTraversable="false"
+        <Button text="Upload" HBox.hgrow="ALWAYS" maxWidth="Infinity" focusTraversable="false" onAction="#sendFile"/>
+        <Button text="Download" HBox.hgrow="ALWAYS" maxWidth="Infinity" focusTraversable="false" onAction="#downLoadFile"/>
+        <Button text="Delete" HBox.hgrow="ALWAYS" maxWidth="Infinity" focusTraversable="false"
+        onAction="#deleteFile"/>
+        <Button text="Exit" HBox.hgrow="ALWAYS" maxWidth="Infinity" focusTraversable="false"
                 onAction="#btnExitAction"/>
     </HBox>
 </VBox>

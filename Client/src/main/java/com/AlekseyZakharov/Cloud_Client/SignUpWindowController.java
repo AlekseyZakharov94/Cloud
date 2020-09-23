@@ -1,13 +1,9 @@
 package com.AlekseyZakharov.Cloud_Client;
 
+import com.AlekseyZakharov.Cloud_Common.DataBaseHandler;
+import com.AlekseyZakharov.Cloud_Common.User;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 
 public class SignUpWindowController {

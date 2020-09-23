@@ -1,15 +1,17 @@
 package com.AlekseyZakharov.Cloud_Client;
 
+import com.AlekseyZakharov.Cloud_Common.FileInfo;
+import com.AlekseyZakharov.Cloud_Server.ServerApp;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,7 +22,7 @@ import java.util.stream.Collectors;
 public class CloudPanelController implements Initializable {
 
     public TableView<FileInfo> filesTable;
-        public TextField pathField;
+    public TextField pathField;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -29,11 +31,11 @@ public class CloudPanelController implements Initializable {
         fileTypeColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getType().getName()));
         fileTypeColumn.setPrefWidth(24);
 
-        TableColumn<FileInfo, String> fileNameColumn = new TableColumn<>("Имя");
+        TableColumn<FileInfo, String> fileNameColumn = new TableColumn<>("Name");
         fileNameColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFileName()));
         fileNameColumn.setPrefWidth(240);
 
-        TableColumn<FileInfo, Long> fileSizeColumn = new TableColumn<>("Размер");
+        TableColumn<FileInfo, Long> fileSizeColumn = new TableColumn<>("Size");
         fileSizeColumn.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getSize()));
         fileSizeColumn.setPrefWidth(120);
         fileSizeColumn.setCellFactory(column -> {
@@ -56,25 +58,26 @@ public class CloudPanelController implements Initializable {
         });
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd  hh:mm:ss");
-        TableColumn<FileInfo, String> fileLastModifiedColumn = new TableColumn<>("Время изменения");
+        TableColumn<FileInfo, String> fileLastModifiedColumn = new TableColumn<>("last modified");
         fileLastModifiedColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getLastModified().format(dtf)));
         fileLastModifiedColumn.setPrefWidth(120);
 
         filesTable.getColumns().addAll(fileTypeColumn, fileNameColumn, fileSizeColumn, fileLastModifiedColumn);
 
-        updateFilesTable(Paths.get("D:/"));
+        updateFilesTable(Paths.get(ServerApp.getSourceDir()));
         filesTable.getSortOrder().add(fileTypeColumn);
 
 
     }
 
     public void updateFilesTable(Path path) {
-        pathField.setText(path.normalize().toAbsolutePath().toString());
+        pathField.setText(path.normalize().toString());
         filesTable.getItems().clear();
         try {
             filesTable.getItems().addAll(Files.list(path).map(FileInfo::new).collect(Collectors.toList()));
         } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Не удалось обновить список файлов", ButtonType.APPLY);
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Failed to update file list",
+                    ButtonType.APPLY);
             alert.showAndWait();
         }
         filesTable.sort();
@@ -82,13 +85,14 @@ public class CloudPanelController implements Initializable {
 
     public void btnPathUpAction(ActionEvent actionEvent) {
         Path upperPath = Paths.get(pathField.getText()).getParent();
-        if (upperPath != null) {
+        if (!upperPath.normalize().toString().equals(ServerApp.getSourceDir())) {
             updateFilesTable(upperPath);
         }
     }
 
     public void surfDirectories(MouseEvent mouseEvent) {
-        Path path = Paths.get(pathField.getText()).resolve(filesTable.getSelectionModel().getSelectedItem().getFileName());
+        Path path = Paths.get(pathField.getText()).resolve(filesTable.getSelectionModel().getSelectedItem()
+                .getFileName());
         if ((mouseEvent.getClickCount() == 2) && (Files.isDirectory(path))) {
             updateFilesTable(path);
         }

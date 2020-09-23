@@ -1,5 +1,6 @@
 package com.AlekseyZakharov.Cloud_Client;
 
+import com.AlekseyZakharov.Cloud_Common.FileInfo;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -14,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class ClientPanelController implements Initializable {
+public class ClientPanelController implements Initializable{
 
     public TableView<FileInfo> filesTable;
     public ComboBox<Path> disksBox;
@@ -34,23 +35,21 @@ public class ClientPanelController implements Initializable {
         TableColumn<FileInfo, Long> fileSizeColumn = new TableColumn<>("Размер");
         fileSizeColumn.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getSize()));
         fileSizeColumn.setPrefWidth(120);
-        fileSizeColumn.setCellFactory(column -> {
-            return new TableCell<FileInfo, Long>() {
-                @Override
-                protected void updateItem(Long item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (item == null || empty) {
-                        setText(null);
-                        setStyle("");
-                    } else {
-                        String text = String.format("%, d bytes", item);
-                        if (item == -1L) {
-                            text = "[DIR]";
-                        }
-                        setText(text);
+        fileSizeColumn.setCellFactory(column -> new TableCell<FileInfo, Long>() {
+            @Override
+            protected void updateItem(Long item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    String text = String.format("%, d bytes", item);
+                    if (item == -1L) {
+                        text = "[DIR]";
                     }
+                    setText(text);
                 }
-            };
+            }
         });
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd  hh:mm:ss");
@@ -99,5 +98,17 @@ public class ClientPanelController implements Initializable {
         if ((mouseEvent.getClickCount() == 2) && (Files.isDirectory(path))) {
             updateFilesTable(path);
         }
+    }
+
+    public String getSelectedFileName() {
+        if (!filesTable.isFocused()) {
+            return null;
+        } else {
+            return filesTable.getSelectionModel().getSelectedItem().getFileName();
+        }
+    }
+
+    public String getCurrentPath() {
+        return pathField.getText();
     }
 }
